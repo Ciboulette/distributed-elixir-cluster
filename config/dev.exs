@@ -2,7 +2,6 @@ use Mix.Config
 
 # Configure your database
 config :elixir_cluster_demo, ElixirClusterDemo.Repo,
-  # url: "postgresql://postgres:louiscibot@35.205.62.113/postgres",
   username: "postgres",
   password: "postgres",
   database: "elixir_cluster_demo_dev",
