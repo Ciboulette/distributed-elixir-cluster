@@ -16,9 +16,22 @@ if config_env() == :prod do
     System.get_env("FLY_APP_NAME") ||
       raise "FLY_APP_NAME not available"
 
+  config :libcluster,
+    debug: true,
+    topologies: [
+      fly6pn: [
+        strategy: Cluster.Strategy.DNSPoll,
+        config: [
+          polling_interval: 5_000,
+          query: "#{app_name}.internal",
+          node_basename: app_name
+        ]
+      ]
+    ]
+
   config :elixir_cluster_demo, ElixirClusterDemoWeb.Endpoint,
     server: true,
-    url: [host: "#{app_name}.fly.dev", port: 80],
+    url: [host: "louiscibot.com", port: 80],
     http: [
       port: String.to_integer(System.get_env("PORT") || "4000"),
       transport_options: [socket_opts: [:inet6]]

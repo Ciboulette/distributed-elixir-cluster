@@ -6,6 +6,8 @@ defmodule ElixirClusterDemo.Application do
   use Application
 
   def start(_type, _args) do
+    topologies = Application.get_env(:libcluster, :topologies) || []
+
     children = [
       # Start the Ecto repository
       ElixirClusterDemo.Repo,
@@ -14,7 +16,8 @@ defmodule ElixirClusterDemo.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: ElixirClusterDemo.PubSub},
       # Start the Endpoint (http/https)
-      ElixirClusterDemoWeb.Endpoint
+      ElixirClusterDemoWeb.Endpoint,
+      {Cluster.Supervisor, [topologies, [name: HelloElixir.ClusterSupervisor]]}
       # Start a worker by calling: ElixirClusterDemo.Worker.start_link(arg)
       # {ElixirClusterDemo.Worker, arg}
     ]
